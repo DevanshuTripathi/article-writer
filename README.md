@@ -1,8 +1,16 @@
-# React + Vite
+# Article Writer Tool
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Clone this repository
 
-Currently, two official plugins are available:
+~~~terminal
+cd article-writer
+~~~
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Run:
+~~~terminal
+npm install
+
+cd server
+
+pip install -r requirements.txt
+~~~

@@ -33,7 +33,7 @@ def optimize(request):
     
     response = client.models.generate_content(
         model="gemini-1.5-pro",
-        contents = f"Optimize this article: {content} "
+        contents = f"Optimize this article: {content} without writing what you have changed "
     )
 
     return JsonResponse({'content' : response.text})

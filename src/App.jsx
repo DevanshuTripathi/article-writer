@@ -6,6 +6,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Showdown from 'showdown';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TypeAnimation } from 'react-type-animation';
+
 
 function App() {
 
@@ -16,6 +18,8 @@ function App() {
   const [isSubmited, setIsSubmited] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [optimizing, setOptimizing] = useState(false);
+  const [animatedContent, setAnimatedContent] = useState("");
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const handleChange = (event) => {
     setTitle(event.target.value);
@@ -43,7 +47,9 @@ function App() {
       }
 
       const result = await response.json()
-      setContent(converter.makeHtml(result.content));
+      const newContent = converter.makeHtml(result.content);
+      // setContent(newContent);
+      startTypingAnimation(newContent);
 
     } catch(error) {
       console.log(error.message);
@@ -72,21 +78,35 @@ function App() {
         throw new Error(`Response Status: ${response.status}`);
       }
 
-      const result = await response.json()
-      
-      setTimeout(() => {
-        setContent("");
-        setTimeout(() => {
-          setContent(converter.makeHtml(result.content));
-          setOptimizing(false);
-        },500)
-      }, 500);
+      const result = await response.json();
+
+      const newContent = converter.makeHtml(result.content);
+      // setContent("");
+      startTypingAnimation(newContent);
 
     } catch(error) {
       console.log(error.message);
-      setOptimizing(false);
     }
-  }
+    setOptimizing(false);
+  };
+
+  const startTypingAnimation = (htmlContent) => {
+    setIsAnimating(true);
+    setAnimatedContent("");
+
+    const plainText = htmlContent.replace(/<[^>]+>/g, "");
+    let index = 0;
+
+    const interval = setInterval(() => {
+      setAnimatedContent((prev) => prev + plainText[index]);
+      index++;
+      if(index === plainText.length){
+         clearInterval(interval);
+         setIsAnimating(false);
+         setContent(htmlContent);
+      }
+    }, 5);
+  };
 
   return (
     <div className='flex justify-center items-center h-screen bg-neutral-900 ' >
@@ -123,7 +143,6 @@ function App() {
               className='w-[500px] h-[40px] text-xl font-medium text-white hover:cursor-grab hover:brightness-90 transition bg-blue-500'
               type="submit"
               value={isLoading ? "Loading..." : "Generate"}
-              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
           />        
           </form>
@@ -135,28 +154,18 @@ function App() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="relative flex flex-col justify-center Editor w-[90%] bg-white"
         >
-          {/* Editor with Erasing & Writing Animation */}
-          <motion.div
-            key={content}
-            initial={{ opacity: 1 }}
-            animate={{
-              opacity: optimizing ? [1, 0, 1] : 1, // Fades out then back in
-              x: optimizing ? [-10, 0] : 0, // Slight left shift (erase effect)
-            }}
-            transition={{ duration: 1 }}
-          >
-            <ReactQuill value={content} onChange={setContent} />
-          </motion.div>
+
+            <ReactQuill value={isAnimating ? animatedContent : content} onChange={setContent} />
+
 
           {/* Optimize Button */}
           <div className="flex justify-center">
             <motion.button
               className="mt-2 mb-2 px-6 py-2 w-[300px] bg-green-500 text-white text-lg rounded-lg hover:cursor-grab hover:brightness-90 transition"
               onClick={handleOptimize}
-              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
-              {optimizing ? "✍️ Writing..." : "Optimize"}
+              {optimizing ? "Optimizing..." : "Optimize"}
             </motion.button>
           </div>
         </motion.div>

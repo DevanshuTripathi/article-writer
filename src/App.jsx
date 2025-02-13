@@ -48,7 +48,6 @@ function App() {
 
       const result = await response.json()
       const newContent = converter.makeHtml(result.content);
-      // setContent(newContent);
       startTypingAnimation(newContent);
 
     } catch(error) {
@@ -81,7 +80,6 @@ function App() {
       const result = await response.json();
 
       const newContent = converter.makeHtml(result.content);
-      // setContent("");
       startTypingAnimation(newContent);
 
     } catch(error) {
@@ -114,6 +112,8 @@ function App() {
       <StarsBackground />
       {
         !isSubmited ? (
+
+          // Landing Page
           <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -148,6 +148,8 @@ function App() {
           </form>
       </motion.div>
         ) : (
+
+          // Text Editor Page
           <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

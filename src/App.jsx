@@ -158,7 +158,6 @@ function App() {
             <ReactQuill value={isAnimating ? animatedContent : content} onChange={setContent} />
 
 
-          {/* Optimize Button */}
           <div className="flex justify-center">
             <motion.button
               className="mt-2 mb-2 px-6 py-2 w-[300px] bg-green-500 text-white text-lg rounded-lg hover:cursor-grab hover:brightness-90 transition"

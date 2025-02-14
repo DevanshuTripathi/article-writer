@@ -103,7 +103,7 @@ function App() {
          setIsAnimating(false);
          setContent(htmlContent);
       }
-    }, 5);
+    }, 10);
   };
 
   return (

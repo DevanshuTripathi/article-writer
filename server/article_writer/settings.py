@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-_)5rkcu5j!a_s&5kgzc&z4dva++8d@a+e2#&#7q$mataic-^k%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'article-writer-two.vercel.app']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'article-writer-two.vercel.app',  # Backend
+    'write-more.vercel.app',  # Frontend
+]
 
 WSGI_APPLICATION = 'article_writer.wsgi.app'
 
@@ -57,8 +62,14 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173", 
-    "https://write-more.vercel.app", 
+    "https://write-more.vercel.app",
+    "https://article-writer-two.vercel.app",
 ]
+
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies/auth headers
+
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["*"]  # Allow all headers
 
 
 ROOT_URLCONF = 'article_writer.urls'

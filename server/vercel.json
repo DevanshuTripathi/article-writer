@@ -1,15 +1,16 @@
 {
     "version": 2,
     "builds": [
-      {
-        "src": "server/article_writer/wsgi.py",
-        "use": "@vercel/python"
-      }
+        {
+            "src": "server/manage.py",
+            "use": "@vercel/python",
+            "config": { "maxLambdaSize": "50mb", "runtime": "python3.9" }
+        }
     ],
     "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/server/article_writer/wsgi.py"
-      }
+        {
+            "src": "/api/(.*)",
+            "dest": "server/article_writer/wsgi.py"
+        }
     ]
 }
